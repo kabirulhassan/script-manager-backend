@@ -6,6 +6,7 @@ const { validateScriptId, validateScriptFields } = require("../services/validati
 /**
  * @description Get all scripts
  * @route GET /api/scripts
+ * 
  */
 const getScripts = asyncHandler(async (req, res) => {
     const scripts = await Script.find({user_id: req.user.id}); // req.user.id is the user id from the token handler middleware
@@ -31,7 +32,7 @@ const createScript = asyncHandler(async (req, res) => {
 /**
  * @description Get a script
  * @route GET /api/scripts/:id
- * @param {string} id.path.required - Script ID
+ * @access Private
  */
 const getScript = asyncHandler(async (req, res) => {
     validateScriptId(req.params.id, res);
@@ -47,6 +48,7 @@ const getScript = asyncHandler(async (req, res) => {
  * @description Update a script
  * @route PUT /api/scripts/:id
  * @param {string} id.path.required - Script ID
+ * @access Private
  */
 const updateScript = asyncHandler(async (req, res) => {
     const { title, scriptBody } = req.body;
@@ -75,6 +77,7 @@ const updateScript = asyncHandler(async (req, res) => {
  * @description Delete a script
  * @route DELETE /api/scripts/:id
  * @param {string} id.path.required - Script ID
+ * @access Private
  */
 const deleteScript = asyncHandler(async (req, res) => {
     validateScriptId(req.params.id, res);

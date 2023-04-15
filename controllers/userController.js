@@ -4,7 +4,14 @@ const { validateUserFields } = require("../services/validationService");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-
+/**
+ * @description Register a new user
+ * @route POST /api/users
+ * @param {string} name.body.required - User name
+ * @param {string} email.body.required - User email
+ * @param {string} password.body.required - User password
+ * @access Public
+ */
 const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
     validateUserFields(name, email, password, res);
@@ -16,8 +23,7 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
     // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword);
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
 
     const user = await User.create({
         name,
@@ -36,7 +42,13 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new Error("Invalid user data");
     }
 });
-
+/**
+ * @description Login a user
+ * @route POST /api/users/login
+ * @param {string} email.body.required - User email
+ * @param {string} password.body.required - User password
+ * @access Public
+ */
 const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -65,14 +77,15 @@ const loginUser = asyncHandler(async (req, res) => {
         throw new Error("Invalid email or password");
     }
 });
-
+/**
+ * @description Get currently logged in user from the auth token
+ * @route GET /api/users/current
+ * @access Private
+ */
 const getCurrentUser = asyncHandler(async (req, res) => {
     res.json(req.user);
 });
 
-const logoutUser = asyncHandler(async (req, res) => {
-    res.json({ message: "Logout" });
-});
 
 module.exports = {
     registerUser,
