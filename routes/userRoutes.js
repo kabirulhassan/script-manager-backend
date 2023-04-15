@@ -10,6 +10,5 @@ router.post('/login', loginUser);
 
 router.get('/current', auth, getCurrentUser);
 
-router.post('/logout', logoutUser);
 
 module.exports = router;
